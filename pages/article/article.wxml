@@ -25,7 +25,6 @@
     <view class="article-card">
 
       <view class="article-header">
-        <text class="article-tag">短文阅读</text>
         <text class="article-title">{{title}}</text>
       </view>
 

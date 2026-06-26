@@ -27,6 +27,7 @@ Page({
     allArticles: [],
     displayArticles: [],
     totalCount: 0,
+    countBar: '',
   },
 
   onLoad() {
@@ -43,8 +44,21 @@ Page({
       wordCount: (a.words || []).length || a.wordCount || 0,
       desc: makeDesc(a.rawContent),
     }))
-    this.setData({ allArticles: list, totalCount: list.length })
+    const countBar = this._buildCountBar(list)
+    this.setData({ allArticles: list, totalCount: list.length, countBar })
     this._filter(this.data.selectedCategory)
+  },
+
+  _buildCountBar(list) {
+    if (!list.length) return ''
+    const bookMap = { KET: 'KET', PET: 'PET', CET4: '四级', CET6: '六级', GRE: '考研' }
+    const counts = {}
+    list.forEach(a => { if (a.category) counts[a.category] = (counts[a.category] || 0) + 1 })
+    const parts = [`全部 ${list.length} 篇`]
+    Object.keys(bookMap).forEach(key => {
+      if (counts[key]) parts.push(`${bookMap[key]} ${counts[key]}`)
+    })
+    return parts.join('  ·  ')
   },
 
   _filter(category) {

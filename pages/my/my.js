@@ -119,7 +119,7 @@ Page({
         totalArticles:       articles.length,
         thisMonth:           thisMonthCount(articles),
         totalWords:          total,
-        totalWordsBreakdown: makeBreakdown(totalByBook, 4),
+        totalWordsBreakdown: makeBreakdown(totalByBook, 3),
         newWords,
         newWordsBreakdown:   makeBreakdown(newByBook, 2),
         mastered,

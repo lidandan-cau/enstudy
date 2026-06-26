@@ -21,50 +21,13 @@ page {
   background-color: var(--color-bg);
 }
 
-/* ---- 页头 ---- */
-.page-header {
-  padding: 48rpx 40rpx 24rpx;
-}
-
-.header-main {
-  display: flex;
-  flex-direction: column;
-  gap: 10rpx;
-}
-
-.page-title {
-  font-size: 48rpx;
-  font-weight: 700;
-  color: var(--color-text-main);
-  letter-spacing: 2rpx;
-}
-
-.header-stats {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 12rpx;
-}
-
-.stat-text {
-  font-size: 24rpx;
-  color: var(--color-text-sub);
-}
-
-.stat-dot {
-  width: 6rpx;
-  height: 6rpx;
-  border-radius: 100rpx;
-  background-color: var(--color-divider);
-}
-
 /* ---- AI Banner ---- */
 .generate-banner {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin: 0 24rpx 24rpx;
+  margin: 24rpx 24rpx 24rpx;
   padding: 28rpx 32rpx;
   background: linear-gradient(135deg, #3CAB6E, #2e8f5a);
   border-radius: 20rpx;
@@ -148,6 +111,16 @@ page {
 .category-chip--active .category-chip__label {
   color: #FFFFFF;
   font-weight: 600;
+}
+
+/* ---- 篇数统计条 ---- */
+.count-bar {
+  padding: 0 32rpx 16rpx;
+}
+
+.count-bar__text {
+  font-size: 22rpx;
+  color: var(--color-text-sub);
 }
 
 /* ---- 文章列表 ---- */

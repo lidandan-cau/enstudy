@@ -3,11 +3,11 @@ const app = getApp()
 
 // 词书配置（所有词书使用统一的词数标准）
 const VOCAB_OPTIONS = [
-  { key: 'KET',  label: 'KET',  sub: 'A2级',  wordCount: { short: 8, medium: 16, long: 24 } },
-  { key: 'PET',  label: 'PET',  sub: 'B1级',  wordCount: { short: 8, medium: 16, long: 24 } },
-  { key: 'CET4', label: '四级', sub: 'CET-4', wordCount: { short: 8, medium: 16, long: 24 } },
-  { key: 'CET6', label: '六级', sub: 'CET-6', wordCount: { short: 8, medium: 16, long: 24 } },
-  { key: 'GRE',  label: '考研', sub: '研究生', wordCount: { short: 8, medium: 16, long: 24 } },
+  { key: 'KET',  label: 'KET',  sub: 'A2级',  wordCount: { short: 7, medium: 12, long: 24 } },
+  { key: 'PET',  label: 'PET',  sub: 'B1级',  wordCount: { short: 7, medium: 12, long: 24 } },
+  { key: 'CET4', label: '四级', sub: 'CET-4', wordCount: { short: 7, medium: 12, long: 24 } },
+  { key: 'CET6', label: '六级', sub: 'CET-6', wordCount: { short: 7, medium: 12, long: 24 } },
+  { key: 'GRE',  label: '考研', sub: '研究生', wordCount: { short: 7, medium: 12, long: 24 } },
 ]
 
 // 故事风格
@@ -22,9 +22,9 @@ const STORY_TYPES = [
 
 // 故事长度
 const LENGTH_OPTIONS = [
-  { key: 'short',  label: '短篇', desc: '8词 · 约1页' },
-  { key: 'medium', label: '中篇', desc: '16词 · 约2页' },
-  { key: 'long',   label: '长篇', desc: '24词 · 约3页' },
+  { key: 'short',  label: '短篇', desc: '约7词 · 约1页' },
+  { key: 'medium', label: '中篇', desc: '约12词 · 约2页' },
+  { key: 'long',   label: '长篇', desc: '约24词 · 约3页' },
 ]
 
 // 预计阅读时长

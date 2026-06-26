@@ -27,28 +27,36 @@ const VOCAB_LEVEL_MAP = {
 
 // 故事长度映射（段落数匹配约1/2/3页的阅读量）
 const LENGTH_MAP = {
-  short:  { paragraphs: 6,  wordCount: 8  },
-  medium: { paragraphs: 12, wordCount: 16 },
-  long:   { paragraphs: 18, wordCount: 24 },
+  short:  { paragraphs: 2, wordCount: 7  },
+  medium: { paragraphs: 4, wordCount: 12 },
+  long:   { paragraphs: 6, wordCount: 24 },
 }
 
 /**
  * 构建发给 AI 的 Prompt
  */
-function buildPrompt({ vocabBook, storyType, storyLength, wordCount, usedWords }) {
+function buildPrompt({ vocabBook, storyType, storyLength, usedWords }) {
   const level = VOCAB_LEVEL_MAP[vocabBook] || vocabBook
   const len = LENGTH_MAP[storyLength] || LENGTH_MAP.medium
   const type = storyType === '随机' ? '任意你觉得有趣的风格' : storyType
+  const wc = len.wordCount
+  const pg = len.paragraphs
 
   const avoidLine = usedWords && usedWords.length > 0
     ? `\n⚠️ 以下词汇已在之前的故事中出现，本次绝对不得重复使用：${usedWords.join(', ')}\n`
     : ''
 
+  const perPara = Math.floor(wc / pg)
+  const extra   = wc - perPara * pg
+  const distDesc = extra > 0
+    ? `前 ${extra} 段各嵌入 ${perPara + 1} 个，其余各段嵌入 ${perPara} 个，合计恰好 ${wc} 个`
+    : `每段恰好嵌入 ${perPara} 个，合计恰好 ${wc} 个`
+
   return `你是一位专业的英语学习内容创作者。请严格按照下方要求创作一篇中英夹杂的学习短文。
 
 【硬性规定，不得违反】
-1. 正文必须恰好包含 ${len.paragraphs} 个自然段，每段之间用换行符 \\n 分隔
-2. 全文必须恰好嵌入 ${wordCount} 个英文单词标注，每段至少分配 1 个
+1. 正文必须恰好包含 ${pg} 个自然段，每段之间用换行符 \\n 分隔
+2. 全文必须恰好嵌入 ${wc} 个英文单词标注（${distDesc}）
 3. 每个英文单词必须用三段格式标注：[英文单词|IPA音标|中文释义]
    正确示例：[career|kəˈrɪr|事业]、[ancient|ˈeɪnʃənt|古老的]
    错误示例：[career|事业]（缺少音标，不可接受）
@@ -61,10 +69,9 @@ function buildPrompt({ vocabBook, storyType, storyLength, wordCount, usedWords }
 
 【输出格式】
 只输出一个合法 JSON 对象，不要有任何其他文字、markdown 代码块或解释：
-{"title":"故事标题","content":"第一段内容\\n第二段内容\\n...","words":["word1","word2"]}
+{"title":"故事标题","content":"第一段内容\\n第二段内容\\n...","words":["word1","word2",...]}
 
-【完整示例（${len.paragraphs}段，含音标）】
-{"title":"Story 1: 咖啡馆的秘密","content":"她推开那扇[ancient|ˈeɪnʃənt|古老的]木门，空气中弥漫着咖啡的香气。\\n角落里，一位老人正[concentrate|ˈkɒnsntreɪt|专注地]读着一本厚厚的书。\\n她[hesitate|ˈhezɪteɪt|犹豫]了片刻，还是走了过去。","words":["ancient","concentrate","hesitate"]}`
+⚠️ words 数组必须恰好包含 ${wc} 个元素，与正文中标注的单词完全一一对应，不得多也不得少。`
 }
 
 /**
@@ -96,9 +103,15 @@ function callAI(prompt) {
         res.on('end', () => {
           try {
             const json = JSON.parse(data)
+            if (json.error) {
+              reject(new Error(`DeepSeek API 错误: ${json.error.message || JSON.stringify(json.error)}`))
+              return
+            }
             const text = json.choices?.[0]?.message?.content || ''
+            if (!text) console.error('API 返回内容为空, 原始响应:', data)
             resolve(text)
           } catch (e) {
+            console.error('响应体解析失败, 原始数据:', data)
             reject(new Error('AI 响应解析失败'))
           }
         })
@@ -111,21 +124,24 @@ function callAI(prompt) {
 }
 
 exports.main = async (event) => {
-  const { vocabBook, storyType, storyLength, wordCount, usedWords } = event
+  const { vocabBook, storyType, storyLength, usedWords } = event
 
   if (!vocabBook) {
     return { success: false, error: '缺少词书参数' }
   }
 
   try {
-    const prompt = buildPrompt({ vocabBook, storyType, storyLength, wordCount, usedWords })
+    const prompt = buildPrompt({ vocabBook, storyType, storyLength, usedWords })
     const aiText = await callAI(prompt)
 
-    // 解析 AI 返回的 JSON
     const jsonMatch = aiText.match(/\{[\s\S]*\}/)
     if (!jsonMatch) throw new Error('AI 返回格式异常')
 
     const parsed = JSON.parse(jsonMatch[0])
+
+    // 以正文实际标注为准提取词表，保证 words 与正文一致
+    const extracted = [...(parsed.content || '').matchAll(/\[([^\]|]+)\|[^\]|]+\|[^\]]+\]/g)].map(m => m[1].trim())
+    const finalWords = extracted.length > 0 ? extracted : (parsed.words || [])
 
     return {
       success: true,
@@ -133,7 +149,7 @@ exports.main = async (event) => {
         id: `ai_${Date.now()}`,
         title: parsed.title || '未命名故事',
         rawContent: parsed.content || '',
-        words: parsed.words || [],
+        words: finalWords,
         category: vocabBook,
         isGenerated: true,
       }

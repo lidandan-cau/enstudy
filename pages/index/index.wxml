@@ -1,16 +1,6 @@
 <!-- pages/index/index.wxml -->
 <view class="page-wrap">
 
-  <!-- 页头 -->
-  <view class="page-header">
-    <view class="header-main">
-      <text class="page-title">每日短文</text>
-      <view class="header-stats">
-        <text class="stat-text">共 {{totalCount}} 篇</text>
-      </view>
-    </view>
-  </view>
-
   <!-- AI 生成 Banner -->
   <view
     class="generate-banner"
@@ -44,6 +34,11 @@
       </view>
     </view>
   </scroll-view>
+
+  <!-- 篇数统计 -->
+  <view class="count-bar" wx:if="{{countBar}}">
+    <text class="count-bar__text">{{countBar}}</text>
+  </view>
 
   <!-- 文章列表 -->
   <scroll-view
@@ -87,7 +82,7 @@
   <view class="empty-state" wx:else>
     <text class="empty-emoji">📖</text>
     <text class="empty-title">内容建设中</text>
-    <text class="empty-sub">先用 AI 生成你的专属故事\n或等待官方内容上线</text>
+    <text class="empty-sub">先用 AI 生成你的专属故事</text>
     <view
       class="empty-btn"
       hover-class="empty-btn--hover"

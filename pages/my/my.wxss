@@ -125,7 +125,7 @@ page {
   font-size: 22rpx;
   color: var(--color-primary);
   opacity: 0.75;
-  text-align: right;
+  text-align: left;
   max-width: 320rpx;
   line-height: 1.7;
   white-space: pre-line;
@@ -182,7 +182,7 @@ page {
 .vocab-breakdown {
   font-size: 18rpx;
   color: var(--color-text-sub);
-  text-align: center;
+  text-align: left;
   line-height: 1.7;
   margin-top: 4rpx;
   padding: 0 4rpx;
