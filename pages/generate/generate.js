@@ -79,14 +79,13 @@ Page({
   },
 
   // ---- 开始生成 ----
-  // 读取该词书已用过的词（去重），传给云函数避免重复
-  _getUsedWords(vocabBook) {
+  // 读取所有词书已用过的词（去重），传给云函数避免重复
+  // 跨词书也排除，确保新文章的每个词都是用户从未在任何文章中见过的
+  _getUsedWords() {
     try {
       const list = wx.getStorageSync('enstudy_articles') || []
       const seen = new Set()
-      list
-        .filter(a => a.category === vocabBook)
-        .forEach(a => (a.words || []).forEach(w => seen.add(w.toLowerCase())))
+      list.forEach(a => (a.words || []).forEach(w => seen.add(w.toLowerCase())))
       return [...seen]
     } catch (e) { return [] }
   },
@@ -101,7 +100,7 @@ Page({
         ? STORY_TYPES.find(t => t.key === this.data.selectedType).label
         : '随机'
 
-      const usedWords = this._getUsedWords(this.data.selectedVocab)
+      const usedWords = this._getUsedWords()
 
       const res = await wx.cloud.callFunction({
         name: 'generateStory',
