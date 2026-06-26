@@ -1,0 +1,102 @@
+<!-- pages/my/my.wxml -->
+<view class="page-wrap">
+
+  <!-- 页头 -->
+  <view class="page-header">
+    <text class="page-title">我的学习</text>
+  </view>
+
+  <!-- 有数据 -->
+  <block wx:if="{{hasData}}">
+
+    <!-- 第一行：学习概览 -->
+    <view class="row-label">学习概览</view>
+    <view class="stats-row">
+      <view class="stat-card">
+        <text class="stat-num">{{learningDays}}</text>
+        <text class="stat-unit">天</text>
+        <text class="stat-label">学习天数</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-card">
+        <text class="stat-num">{{totalArticles}}</text>
+        <text class="stat-unit">篇</text>
+        <text class="stat-label">已读文章</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-card">
+        <text class="stat-num">{{thisMonth}}</text>
+        <text class="stat-unit">篇</text>
+        <text class="stat-label">本月新增</text>
+      </view>
+    </view>
+
+    <!-- 第二行：词汇统计 -->
+    <view class="row-label">词汇统计</view>
+
+    <!-- 接触词汇：全宽 -->
+    <view class="vocab-total-card">
+      <view class="vocab-total-left">
+        <text class="vocab-total-num">{{totalWords}}</text>
+        <text class="vocab-total-label">接触词汇</text>
+      </view>
+      <text class="vocab-total-breakdown" wx:if="{{totalWordsBreakdown}}">{{totalWordsBreakdown}}</text>
+      <text class="vocab-total-breakdown vocab-total-breakdown--hint" wx:else>生成故事后统计</text>
+    </view>
+
+    <!-- 新词 / 已掌握 / 待加强：三列 -->
+    <view class="vocab-row">
+
+      <view class="vocab-card vocab-card--gray">
+        <text class="vocab-num">{{newWords}}</text>
+        <text class="vocab-label">新词</text>
+        <text class="vocab-breakdown" wx:if="{{newWordsBreakdown}}">{{newWordsBreakdown}}</text>
+        <text class="vocab-breakdown vocab-breakdown--hint" wx:else>未开始复习</text>
+      </view>
+
+      <view class="vocab-card vocab-card--blue">
+        <text class="vocab-num">{{mastered}}</text>
+        <text class="vocab-label">已掌握</text>
+        <text class="vocab-breakdown" wx:if="{{masteredBreakdown}}">{{masteredBreakdown}}</text>
+        <text class="vocab-breakdown vocab-breakdown--hint" wx:elif="{{hasReview}}">暂无掌握记录</text>
+        <text class="vocab-breakdown vocab-breakdown--hint" wx:else>去复习积累掌握度</text>
+      </view>
+
+      <view class="vocab-card vocab-card--orange">
+        <text class="vocab-num">{{needsWork}}</text>
+        <text class="vocab-label">待加强</text>
+        <text class="vocab-breakdown" wx:if="{{needsWorkBreakdown}}">{{needsWorkBreakdown}}</text>
+        <text class="vocab-breakdown vocab-breakdown--hint" wx:elif="{{hasReview}}">继续加油</text>
+        <text class="vocab-breakdown vocab-breakdown--hint" wx:else>去复习积累掌握度</text>
+      </view>
+
+    </view>
+
+    <!-- 去复习 -->
+    <view
+      class="review-btn"
+      hover-class="review-btn--hover"
+      hover-stay-time="150"
+      bindtap="onGoReview"
+    >
+      <text class="review-btn__text">前往复习单词 →</text>
+    </view>
+
+  </block>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:else>
+    <text class="empty-emoji">📚</text>
+    <text class="empty-title">开始你的学习之旅</text>
+    <text class="empty-sub">生成 AI 短文，边读边记单词</text>
+    <view
+      class="go-btn"
+      hover-class="go-btn--hover"
+      hover-stay-time="150"
+      bindtap="onGoGenerate"
+    >
+      <text class="go-btn__text">✨ 去生成故事</text>
+    </view>
+  </view>
+
+</view>

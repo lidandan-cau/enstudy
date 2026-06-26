@@ -1,0 +1,9 @@
+{
+  "name": "generateStory",
+  "version": "1.0.0",
+  "description": "AI 生成中英夹杂故事云函数",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

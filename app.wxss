@@ -1,0 +1,10 @@
+/* app.wxss — 全局基础样式重置 */
+page {
+  box-sizing: border-box;
+  font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+view, text, image {
+  box-sizing: border-box;
+}

@@ -1,0 +1,285 @@
+/* pages/generate/generate.wxss */
+
+page {
+  --color-primary:       #3CAB6E;
+  --color-primary-light: #EBF6F0;
+  --color-primary-deep:  #2e8f5a;
+  --color-bg:            #F7F8FA;
+  --color-card:          #FFFFFF;
+  --color-text-main:     #1A1A1A;
+  --color-text-sub:      #8A8A8A;
+  --color-divider:       #EEEEEE;
+  --shadow-card:         0 4rpx 24rpx rgba(0, 0, 0, 0.06);
+  background-color: var(--color-bg);
+  font-family: -apple-system, 'PingFang SC', sans-serif;
+}
+
+.page-wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.scroll-area {
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ======================================================
+   通用 Section
+   ====================================================== */
+.section {
+  margin: 24rpx 24rpx 0;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--color-text-main);
+  letter-spacing: 1rpx;
+}
+
+.badge {
+  padding: 4rpx 16rpx;
+  border-radius: 100rpx;
+}
+
+.badge--required {
+  background-color: #FFF0F0;
+}
+
+.badge--required .badge-text {
+  font-size: 22rpx;
+  color: #E05A5A;
+  font-weight: 500;
+}
+
+.badge--optional {
+  background-color: #F5F5F5;
+}
+
+.badge--optional .badge-text {
+  font-size: 22rpx;
+  color: var(--color-text-sub);
+}
+
+/* ======================================================
+   词书网格（5个，横向自适应）
+   ====================================================== */
+.vocab-grid {
+  display: flex;
+  flex-direction: row;
+  gap: 16rpx;
+}
+
+.vocab-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-card);
+  border-radius: 16rpx;
+  padding: 20rpx 0;
+  box-shadow: var(--shadow-card);
+  border: 2rpx solid transparent;
+}
+
+.vocab-card--active {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-light);
+}
+
+.vocab-label {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--color-text-main);
+}
+
+.vocab-card--active .vocab-label {
+  color: var(--color-primary);
+}
+
+.vocab-sub {
+  font-size: 20rpx;
+  color: var(--color-text-sub);
+  margin-top: 4rpx;
+}
+
+.vocab-card--active .vocab-sub {
+  color: var(--color-primary);
+  opacity: 0.8;
+}
+
+/* ======================================================
+   故事风格宫格（2×3）
+   ====================================================== */
+.type-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16rpx;
+}
+
+.type-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-card);
+  border-radius: 16rpx;
+  padding: 28rpx 0;
+  box-shadow: var(--shadow-card);
+  border: 2rpx solid transparent;
+  gap: 10rpx;
+}
+
+.type-card--active {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-light);
+}
+
+.type-icon {
+  font-size: 44rpx;
+}
+
+.type-label {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: var(--color-text-main);
+}
+
+.type-card--active .type-label {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* ======================================================
+   故事长度（短/中/长）
+   ====================================================== */
+.length-row {
+  display: flex;
+  flex-direction: row;
+  gap: 16rpx;
+}
+
+.length-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-card);
+  border-radius: 16rpx;
+  padding: 24rpx 0;
+  box-shadow: var(--shadow-card);
+  border: 2rpx solid transparent;
+  gap: 6rpx;
+}
+
+.length-btn--active {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-light);
+}
+
+.length-label {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-text-main);
+}
+
+.length-btn--active .length-label {
+  color: var(--color-primary);
+}
+
+.length-desc {
+  font-size: 22rpx;
+  color: var(--color-text-sub);
+}
+
+.length-btn--active .length-desc {
+  color: var(--color-primary);
+  opacity: 0.8;
+}
+
+/* ======================================================
+   预览信息卡
+   ====================================================== */
+.info-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12rpx;
+  margin: 24rpx 24rpx 0;
+  background-color: var(--color-primary-light);
+  border-radius: 16rpx;
+  padding: 24rpx 28rpx;
+}
+
+.info-card--placeholder {
+  background-color: #F5F5F5;
+}
+
+.info-icon {
+  font-size: 32rpx;
+  flex-shrink: 0;
+}
+
+.info-text {
+  font-size: 26rpx;
+  color: var(--color-primary);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.info-card--placeholder .info-text {
+  color: var(--color-text-sub);
+}
+
+/* ======================================================
+   底部生成按钮
+   ====================================================== */
+.bottom-gap {
+  height: 160rpx;
+}
+
+.bottom-bar {
+  padding: 20rpx 24rpx 48rpx;
+  background-color: var(--color-bg);
+}
+
+.generate-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 96rpx;
+  border-radius: 100rpx;
+  background-color: var(--color-primary);
+  box-shadow: 0 8rpx 32rpx rgba(60, 171, 110, 0.35);
+}
+
+.generate-btn--disabled {
+  background-color: #CCCCCC;
+  box-shadow: none;
+}
+
+.generate-btn--hover {
+  background-color: var(--color-primary-deep);
+  box-shadow: 0 4rpx 16rpx rgba(60, 171, 110, 0.25);
+}
+
+.generate-btn__text {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: 2rpx;
+}
+
+/* 通用 hover */
+.card--hover { opacity: 0.75; }

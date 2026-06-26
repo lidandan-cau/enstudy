@@ -1,0 +1,97 @@
+<!-- pages/generate/generate.wxml -->
+<view class="page-wrap">
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+
+    <!-- ① 词书选择 -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">选择词书</text>
+        <view class="badge badge--required"><text class="badge-text">必选</text></view>
+      </view>
+      <view class="vocab-grid">
+        <view
+          wx:for="{{vocabOptions}}"
+          wx:key="key"
+          class="vocab-card {{selectedVocab === item.key ? 'vocab-card--active' : ''}}"
+          data-key="{{item.key}}"
+          hover-class="card--hover"
+          hover-stay-time="100"
+          bindtap="onVocabSelect"
+        >
+          <text class="vocab-label">{{item.label}}</text>
+          <text class="vocab-sub">{{item.sub}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- ② 故事风格 -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">故事风格</text>
+        <view class="badge badge--optional"><text class="badge-text">不选则随机</text></view>
+      </view>
+      <view class="type-grid">
+        <view
+          wx:for="{{storyTypes}}"
+          wx:key="key"
+          class="type-card {{selectedType === item.key ? 'type-card--active' : ''}}"
+          data-key="{{item.key}}"
+          hover-class="card--hover"
+          hover-stay-time="100"
+          bindtap="onTypeSelect"
+        >
+          <text class="type-icon">{{item.icon}}</text>
+          <text class="type-label">{{item.label}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- ③ 故事长度 -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">故事长度</text>
+      </view>
+      <view class="length-row">
+        <view
+          wx:for="{{lengthOptions}}"
+          wx:key="key"
+          class="length-btn {{selectedLength === item.key ? 'length-btn--active' : ''}}"
+          data-key="{{item.key}}"
+          hover-class="card--hover"
+          hover-stay-time="100"
+          bindtap="onLengthSelect"
+        >
+          <text class="length-label">{{item.label}}</text>
+          <text class="length-desc">{{item.desc}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- ④ 预览信息卡 -->
+    <view class="info-card" wx:if="{{selectedVocab}}">
+      <text class="info-icon">📚</text>
+      <text class="info-text">约包含 {{previewWordCount}} 个{{previewVocabLabel}}核心词汇  ·  预计阅读 {{previewReadTime}} 分钟</text>
+    </view>
+    <view class="info-card info-card--placeholder" wx:else>
+      <text class="info-icon">💡</text>
+      <text class="info-text">请先选择词书，再开始生成</text>
+    </view>
+
+    <!-- 底部留白（防被按钮遮挡） -->
+    <view class="bottom-gap"></view>
+  </scroll-view>
+
+  <!-- ⑤ 生成按钮 -->
+  <view class="bottom-bar">
+    <view
+      class="generate-btn {{!selectedVocab || generating ? 'generate-btn--disabled' : ''}}"
+      hover-class="{{selectedVocab && !generating ? 'generate-btn--hover' : ''}}"
+      hover-stay-time="150"
+      bindtap="onGenerate"
+    >
+      <text class="generate-btn__text" wx:if="{{generating}}">✨  生成中...</text>
+      <text class="generate-btn__text" wx:else>✨  开始生成</text>
+    </view>
+  </view>
+
+</view>

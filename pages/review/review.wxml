@@ -1,0 +1,165 @@
+<!-- pages/review/review.wxml -->
+<view class="page-wrap">
+
+  <!-- 筛选标签（有词时始终显示） -->
+  <view class="filter-bar" wx:if="{{hasWords}}">
+    <view
+      class="filter-tab {{selectedFilter === 'new' ? 'filter-tab--active' : ''}}"
+      data-filter="new"
+      hover-class="filter-tab--hover"
+      hover-stay-time="100"
+      bindtap="onFilterChange"
+    >
+      <text class="filter-tab__label">新词</text>
+      <text class="filter-tab__count">{{newCount}} 词</text>
+    </view>
+    <view
+      class="filter-tab {{selectedFilter === 'needsWork' ? 'filter-tab--active' : ''}}"
+      data-filter="needsWork"
+      hover-class="filter-tab--hover"
+      hover-stay-time="100"
+      bindtap="onFilterChange"
+    >
+      <text class="filter-tab__label">待加强</text>
+      <text class="filter-tab__count">{{needsWorkCount}} 词</text>
+    </view>
+    <view
+      class="filter-tab {{selectedFilter === 'mastered' ? 'filter-tab--active' : ''}}"
+      data-filter="mastered"
+      hover-class="filter-tab--hover"
+      hover-stay-time="100"
+      bindtap="onFilterChange"
+    >
+      <text class="filter-tab__label">已掌握</text>
+      <text class="filter-tab__count">{{masteredCount}} 词</text>
+    </view>
+  </view>
+
+  <!-- ① 复习中 -->
+  <block wx:if="{{status === 'reviewing'}}">
+
+    <view class="progress-header">
+      <view class="progress-info">
+        <text class="progress-label">单词复习</text>
+        <text class="progress-count">{{currentIndex + 1}} / {{total}}</text>
+      </view>
+      <view class="progress-bar-wrap">
+        <view class="progress-bar-fill" style="width: {{progressPercent}}%"></view>
+      </view>
+    </view>
+
+    <view class="card-area">
+      <view
+        class="word-card {{revealed ? 'word-card--revealed' : ''}}"
+        hover-class="word-card--hover"
+        hover-stay-time="100"
+        bindtap="onReveal"
+      >
+        <view class="word-en-wrap">
+          <text class="word-en">{{currentWord.en}}</text>
+          <text class="word-phonetic" wx:if="{{currentWord.phonetic}}">/{{currentWord.phonetic}}/</text>
+        </view>
+        <view class="word-divider" wx:if="{{revealed}}"></view>
+        <text class="word-zh" wx:if="{{revealed}}">{{currentWord.zh}}</text>
+        <view class="reveal-hint" wx:if="{{!revealed}}">
+          <text class="reveal-hint__text">点击查看释义</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="action-bar">
+      <view
+        class="action-btn action-btn--unknown {{!revealed ? 'action-btn--disabled' : ''}}"
+        hover-class="{{revealed ? 'action-btn--hover' : ''}}"
+        hover-stay-time="150"
+        bindtap="onUnknown"
+      >
+        <text class="action-btn__icon">😅</text>
+        <text class="action-btn__text">再练一次</text>
+      </view>
+      <view
+        class="action-btn action-btn--known {{!revealed ? 'action-btn--disabled' : ''}}"
+        hover-class="{{revealed ? 'action-btn--hover' : ''}}"
+        hover-stay-time="150"
+        bindtap="onKnown"
+      >
+        <text class="action-btn__icon">✓</text>
+        <text class="action-btn__text">认识</text>
+      </view>
+    </view>
+
+  </block>
+
+  <!-- ② 复习完成 -->
+  <block wx:elif="{{status === 'finished'}}">
+    <view class="result-wrap">
+      <text class="result-emoji">🎉</text>
+      <text class="result-title">本轮复习完成！</text>
+      <view class="result-stats">
+        <view class="result-stat-card result-stat-card--green">
+          <text class="result-stat-num">{{knownCount}}</text>
+          <text class="result-stat-label">认识</text>
+        </view>
+        <view class="result-stat-card result-stat-card--orange">
+          <text class="result-stat-num">{{unknownCount}}</text>
+          <text class="result-stat-label">再练</text>
+        </view>
+      </view>
+      <view
+        class="restart-btn"
+        hover-class="restart-btn--hover"
+        hover-stay-time="150"
+        bindtap="onRestart"
+      >
+        <text class="restart-btn__text">🔄 再来一轮</text>
+      </view>
+    </view>
+  </block>
+
+  <!-- ③ 当前筛选无词 -->
+  <block wx:elif="{{status === 'filterEmpty'}}">
+    <view class="empty-wrap">
+      <block wx:if="{{selectedFilter === 'new'}}">
+        <text class="empty-emoji">📖</text>
+        <text class="empty-title">暂无新词</text>
+        <text class="empty-sub">所有词汇都已复习过\n去阅读更多故事积累新词</text>
+      </block>
+      <block wx:elif="{{selectedFilter === 'needsWork'}}">
+        <text class="empty-emoji">🎯</text>
+        <text class="empty-title">暂无待加强词汇</text>
+        <text class="empty-sub">先去「新词」里开始复习\n多次标记"再练"后会出现在这里</text>
+      </block>
+      <block wx:else>
+        <text class="empty-emoji">🌱</text>
+        <text class="empty-title">暂无已掌握词汇</text>
+        <text class="empty-sub">在「新词」里复习并多次标记"认识"\n达到标准即可掌握</text>
+      </block>
+      <view
+        class="go-read-btn"
+        hover-class="go-read-btn--hover"
+        hover-stay-time="150"
+        bindtap="onGoRead"
+      >
+        <text class="go-read-btn__text">去阅读文章</text>
+      </view>
+    </view>
+  </block>
+
+  <!-- ④ 无文章（空库） -->
+  <block wx:elif="{{status === 'empty'}}">
+    <view class="empty-wrap">
+      <text class="empty-emoji">📚</text>
+      <text class="empty-title">还没有可复习的单词</text>
+      <text class="empty-sub">先去生成 AI 故事阅读\n单词会自动加入复习列表</text>
+      <view
+        class="go-read-btn"
+        hover-class="go-read-btn--hover"
+        hover-stay-time="150"
+        bindtap="onGoRead"
+      >
+        <text class="go-read-btn__text">去阅读文章</text>
+      </view>
+    </view>
+  </block>
+
+</view>

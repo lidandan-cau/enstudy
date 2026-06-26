@@ -1,0 +1,197 @@
+/* pages/article/article.wxss */
+
+page {
+  --color-primary:       #3CAB6E;
+  --color-primary-light: #EBF6F0;
+  --color-primary-deep:  #2e8f5a;
+  --color-bg:            #F7F8FA;
+  --color-card:          #FFFFFF;
+  --color-text-main:     #1A1A1A;
+  --color-text-sub:      #8A8A8A;
+  --color-divider:       #EEEEEE;
+  --radius-card:         24rpx;
+  --radius-btn:          16rpx;
+  --shadow-card:         0 4rpx 24rpx rgba(0, 0, 0, 0.06);
+  background-color: var(--color-bg);
+  font-family: -apple-system, 'PingFang SC', sans-serif;
+}
+
+.page-wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--color-bg);
+}
+
+/* ---- Segmented Control ---- */
+.mode-bar {
+  padding: 24rpx 32rpx 16rpx;
+  background-color: var(--color-bg);
+  border-bottom: 1rpx solid var(--color-divider);
+}
+
+.mode-track {
+  display: flex;
+  flex-direction: row;
+  background-color: #EFEFEF;
+  border-radius: 100rpx;
+  padding: 6rpx;
+}
+
+.mode-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 64rpx;
+  border-radius: 100rpx;
+}
+
+.mode-item--active {
+  background-color: var(--color-primary);
+  box-shadow: 0 2rpx 12rpx rgba(60, 171, 110, 0.30);
+}
+
+.mode-item--hover { opacity: 0.75; }
+
+.mode-item__label {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: var(--color-text-sub);
+  letter-spacing: 1rpx;
+}
+
+.mode-item--active .mode-item__label { color: #FFFFFF; }
+
+/* ---- 滚动区 ---- */
+.scroll-area {
+  flex: 1;
+  overflow: hidden;
+  padding: 24rpx 24rpx 0;
+}
+
+/* ---- 文章卡片 ---- */
+.article-card {
+  background-color: var(--color-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 40rpx 36rpx 48rpx;
+  margin-bottom: 24rpx;
+}
+
+.article-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  margin-bottom: 28rpx;
+}
+
+.article-tag {
+  display: inline-block;
+  font-size: 22rpx;
+  color: var(--color-primary);
+  background-color: var(--color-primary-light);
+  padding: 6rpx 20rpx;
+  border-radius: 100rpx;
+  font-weight: 500;
+  letter-spacing: 2rpx;
+  align-self: flex-start;
+}
+
+.article-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--color-text-main);
+  line-height: 1.4;
+  letter-spacing: 1rpx;
+}
+
+.divider {
+  height: 1rpx;
+  background-color: var(--color-divider);
+  margin-bottom: 32rpx;
+}
+
+.article-body { word-break: break-all; }
+
+.article-text {
+  font-size: 30rpx;
+  line-height: 2.0;
+  color: var(--color-text-main);
+  letter-spacing: 0.5rpx;
+}
+
+.highlight-word {
+  display: inline;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  font-weight: 600;
+  padding: 0 8rpx;
+  border-radius: 8rpx;
+  font-size: 30rpx;
+  line-height: 2.0;
+}
+
+.phonetic {
+  font-size: 22rpx;
+  color: var(--color-primary);
+  font-weight: 400;
+  opacity: 0.65;
+}
+
+/* ---- 底部栏 ---- */
+.bottom-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 32rpx 48rpx;
+  background-color: var(--color-card);
+  border-top: 1rpx solid var(--color-divider);
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.04);
+}
+
+.btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  height: 80rpx;
+  padding: 0 40rpx;
+  border-radius: var(--radius-btn);
+  min-width: 180rpx;
+}
+
+.btn--primary { background-color: var(--color-primary); }
+.btn--primary .btn__text,
+.btn--primary .btn__icon { color: #FFFFFF; }
+.btn--hover-primary { background-color: var(--color-primary-deep); }
+
+.btn--outline { background-color: var(--color-primary-light); }
+.btn--outline .btn__text,
+.btn--outline .btn__icon { color: var(--color-primary); }
+.btn--hover-outline { background-color: #d8ede4; }
+
+.btn__text {
+  font-size: 28rpx;
+  font-weight: 600;
+  letter-spacing: 1rpx;
+}
+
+.btn__icon {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.article-counter {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.counter-text {
+  font-size: 26rpx;
+  color: var(--color-text-sub);
+  font-weight: 500;
+}

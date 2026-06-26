@@ -1,0 +1,77 @@
+<!--
+  pages/article/article.wxml
+-->
+<view class="page-wrap">
+
+  <!-- 顶部 Segmented Control -->
+  <view class="mode-bar">
+    <view class="mode-track">
+      <block wx:for="{{modeOptions}}" wx:key="key">
+        <view
+          class="mode-item {{displayMode === item.key ? 'mode-item--active' : ''}}"
+          data-mode="{{item.key}}"
+          hover-class="mode-item--hover"
+          hover-stay-time="100"
+          bindtap="onModeChange"
+        >
+          <text class="mode-item__label">{{item.label}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 主体文章卡片 -->
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="article-card">
+
+      <view class="article-header">
+        <text class="article-tag">短文阅读</text>
+        <text class="article-title">{{title}}</text>
+      </view>
+
+      <view class="divider"></view>
+
+      <view class="article-body">
+        <text class="article-text" space="nbsp">
+          <block wx:for="{{contentNodes}}" wx:key="index">
+            <text wx:if="{{item.type === 'text'}}">{{item.content}}</text>
+            <text wx:elif="{{item.type === 'word'}}" class="highlight-word">
+              <text wx:if="{{displayMode === 'both'}}">{{item.en}}<text wx:if="{{item.phonetic}}" class="phonetic"> /{{item.phonetic}}/</text> ({{item.zh}})</text>
+              <text wx:elif="{{displayMode === 'en'}}">{{item.en}}<text wx:if="{{item.phonetic}}" class="phonetic"> /{{item.phonetic}}/</text></text>
+              <text wx:else>{{item.zh}}</text>
+            </text>
+          </block>
+        </text>
+      </view>
+
+    </view>
+  </scroll-view>
+
+  <!-- 底部操作栏（收藏/生成页跳转来的不显示翻页） -->
+  <view class="bottom-bar" wx:if="{{!isStandalone}}">
+    <view
+      class="btn btn--outline"
+      hover-class="btn--hover-outline"
+      hover-stay-time="150"
+      bindtap="onPrev"
+    >
+      <text class="btn__icon">←</text>
+      <text class="btn__text">上一篇</text>
+    </view>
+
+    <view class="article-counter">
+      <text class="counter-text">{{currentIndex + 1}} / 2</text>
+    </view>
+
+    <view
+      class="btn btn--primary"
+      hover-class="btn--hover-primary"
+      hover-stay-time="150"
+      bindtap="onNext"
+    >
+      <text class="btn__text">下一篇</text>
+      <text class="btn__icon">→</text>
+    </view>
+  </view>
+
+</view>

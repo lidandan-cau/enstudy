@@ -1,0 +1,101 @@
+<!-- pages/index/index.wxml -->
+<view class="page-wrap">
+
+  <!-- 页头 -->
+  <view class="page-header">
+    <view class="header-main">
+      <text class="page-title">每日短文</text>
+      <view class="header-stats">
+        <text class="stat-text">共 {{totalCount}} 篇</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- AI 生成 Banner -->
+  <view
+    class="generate-banner"
+    hover-class="generate-banner--hover"
+    hover-stay-time="150"
+    bindtap="onGoGenerate"
+  >
+    <view class="banner-left">
+      <text class="banner-icon">✨</text>
+      <view class="banner-text-wrap">
+        <text class="banner-title">AI 定制故事</text>
+        <text class="banner-sub">选词书，一键生成专属短文</text>
+      </view>
+    </view>
+    <text class="banner-arrow">›</text>
+  </view>
+
+  <!-- 分类筛选 -->
+  <scroll-view class="category-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+    <view class="category-row">
+      <view
+        wx:for="{{categories}}"
+        wx:key="key"
+        class="category-chip {{selectedCategory === item.key ? 'category-chip--active' : ''}}"
+        data-key="{{item.key}}"
+        hover-class="category-chip--hover"
+        hover-stay-time="100"
+        bindtap="onCategoryTap"
+      >
+        <text class="category-chip__label">{{item.label}}</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 文章列表 -->
+  <scroll-view
+    class="scroll-area"
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+    wx:if="{{displayArticles.length > 0}}"
+  >
+    <view class="list">
+      <view
+        wx:for="{{displayArticles}}"
+        wx:key="id"
+        class="article-card"
+        data-index="{{index}}"
+        hover-class="article-card--hover"
+        hover-stay-time="150"
+        bindtap="onArticleTap"
+      >
+        <view class="card-left">
+          <text class="card-index">{{index + 1}}</text>
+        </view>
+        <view class="card-body">
+          <view class="card-tags">
+            <view class="tag tag--category">
+              <text class="tag-text">{{item.category}}</text>
+            </view>
+            <view class="tag">
+              <text class="tag-text">{{item.wordCount}} 个词</text>
+            </view>
+          </view>
+          <text class="card-title">{{item.title}}</text>
+          <text class="card-desc">{{item.desc}}</text>
+        </view>
+        <text class="card-arrow">›</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:else>
+    <text class="empty-emoji">📖</text>
+    <text class="empty-title">内容建设中</text>
+    <text class="empty-sub">先用 AI 生成你的专属故事\n或等待官方内容上线</text>
+    <view
+      class="empty-btn"
+      hover-class="empty-btn--hover"
+      hover-stay-time="150"
+      bindtap="onGoGenerate"
+    >
+      <text class="empty-btn__text">✨ 去生成故事</text>
+    </view>
+  </view>
+
+</view>
